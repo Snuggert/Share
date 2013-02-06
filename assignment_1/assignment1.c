@@ -15,35 +15,46 @@ long double getRandom();
 
 int main( int argc, char *argv[] )
 {
-	int r, index, randomNumbersInside;
-	long randomNumbers;
+	unsigned long long index, randomNumbersInside;
+	unsigned long long randomNumbers;
 	long double fourthPI, myPI;
 
-	randomNumbers = atoi( (argv[1]) );
-	randomNumbersInside = 0;
-	r = 1;
-	printf("To be generated: %d \nwidth/height/radius: %d\n", randomNumbers, r);
+	if(atoi( (argv[1]) ) >= 0)
+	{
+		randomNumbers = atoi( (argv[1]) );
+		randomNumbersInside = 0;
 
-	for (index=0; index<randomNumbers; index++) {
-		long double x, y, lengthxy;
-		x = getRandom();
-		y = getRandom();
-		lengthxy = sqrt(pow(x, 2.0)+ pow(y, 2.0));
-		if(lengthxy <= 1.0){
-			randomNumbersInside ++;
+		printf("\nNumbers to be generated: %llu \n", randomNumbers);
+
+		for (index=0; index<randomNumbers; index++) {
+			long double x, y, lengthxy;
+			x = getRandom();
+			y = getRandom();
+			lengthxy = sqrt(pow(x, 2.0)+ pow(y, 2.0));
+			if(lengthxy <= 1.0){
+				randomNumbersInside ++;
+			}
 		}
+		fourthPI = (long double)randomNumbersInside / 
+			(long double)randomNumbers;
+		myPI = fourthPI * 4.0;
+
+		printf("Numbers inside: %llu \n", randomNumbersInside);
+
+		printf("\nVery inaccurate PI: %Lf \n", myPI);
 	}
-	printf("Numbers inside: %d \n", randomNumbersInside);
-	fourthPI = (long double)randomNumbersInside / (long double)randomNumbers;
-	myPI = fourthPI * 4.0;
-	printf("Very inaccurate PI %Lf \n", myPI);
-	printf("Waiting for enter to exit: \n");
+	else{
+		printf("\nERROR:Number given below zero\n");
+	}
+
+	printf("\nWaiting for enter to exit:");
 	getchar();
-
 	return 0;
-
 }
 
+/*
+ * function to get random number between 0 and 1
+ */
 long double getRandom ()
 {
 	return (long double)rand() / (long double)RAND_MAX;
