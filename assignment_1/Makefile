@@ -19,5 +19,5 @@ $(PROGNAME).o: $(PROGNAME).c
 	$(COMPILE) $< $(OUTPUT)
 
 # Rule for building an executable called ‘$(PROGNAME)’ using assignment1.o
-$(PROGNAME): $(PROGNAME)
+$(PROGNAME): $(PROGNAME).o
 	$(CC) $(CFLAGS) $(OUTPUT) $(PROGNAME)
