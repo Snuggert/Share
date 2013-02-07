@@ -5,19 +5,19 @@ PROGNAME = assignment1
 CC = gcc
 
 # Set the flags for the C compiler.
-CFLAGS = -Wall -std=c99 -pedantic -lm -pie
+CFLAGS = -Wall -std=c99 -pedantic -lm 
 
 # Macro for compiling .
 COMPILE = $(CC) $(CFLAGS) -c
 
 # Macro for the output of compilation.
-OUTPUT = -o  $(PROGNAME)
+OUTPUT = -o  $@
 
 # Rule for creating an object file by compiling a c file.
 # the file with the name ’assignment1.c’ will be compiled.
-object: assignment1.c
-	$(COMPILE) $(PROGNAME).c $(OUTPUT).o
+$(PROGNAME).o: $(PROGNAME).c
+	$(COMPILE) $< $(OUTPUT)
 
-# Rule for building an executable called ‘main’ using assignment1.o
-main: assignment1.o
-	$(CC) $(CFLAGS) $(OUTPUT).exe
+# Rule for building an executable called ‘$(PROGNAME)’ using assignment1.o
+$(PROGNAME): $(PROGNAME)
+	$(CC) $(CFLAGS) $(OUTPUT) $(PROGNAME)
