@@ -155,9 +155,6 @@ int getOffset(int min, int max)
    {
       printf("Wrong input: ");
    }
-
-   // while (getchar() != '\n'); <<<--- Should I put this here??
-
    return input;
 }
 
