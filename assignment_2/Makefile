@@ -1,5 +1,5 @@
 #Set program name.
-PROGNAME = test
+PROGNAME = assignment2
 
 #Set the C compiler.
 CC = gcc
@@ -25,4 +25,4 @@ $(PROGNAME): $(PROGNAME).o
 	$(CC) $(CFLAGS) $(OUTPUT) $< -lm
 
 run: all
-	./$(PROGNAME).exe
+	./$(PROGNAME) testfile1.txt freq.txt
