@@ -51,6 +51,7 @@ int main( int argc, char *argv[] )
          exit(EXIT_FAILURE);
       }
 
+      // load the frequency file into the freqAlphabet array.
       while( ( ch = fgetc(filePointer) ) != EOF )
       {
          if(ch == ' ')
@@ -80,6 +81,7 @@ int main( int argc, char *argv[] )
       fclose(filePointer);
 
       printf("\nTrying offsets:\n");
+      // try all the offsets 0 to 25
       for(offset = 0; offset < 26; offset++)
       {
          printf(" %d", offset);
@@ -146,6 +148,7 @@ int main( int argc, char *argv[] )
    }
 }
 
+// get offset from user.
 int getOffset(int min, int max)
 {
    int input;   
@@ -158,6 +161,7 @@ int getOffset(int min, int max)
    return input;
 }
 
+// function to print a file with a offset.
 void printOffset(int offset, char *encryptedFile)
 {
    char ch;
