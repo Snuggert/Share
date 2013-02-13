@@ -65,7 +65,7 @@ int main( int argc, char *argv[] )
          }
          else if(floatFlag == 0)
          {
-            freqIndex = (int)ch - 'a';
+            freqIndex = ch - 'a';
             if(freqIndex < 0 || freqIndex > 25)
             {
                perror("Wrong file format in language frequency file.\n");
