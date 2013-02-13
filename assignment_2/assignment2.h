@@ -81,8 +81,7 @@ int tryOffsets(char *encryptedFile, float *freqAlphabet)
 		//check filepointer for validity
 		if( filePointer == NULL )
 		{
-			printf("Error while opening the file.\n");
-			return 0;
+			return 4;
 		}
 
 		/*
@@ -100,7 +99,7 @@ int tryOffsets(char *encryptedFile, float *freqAlphabet)
 				if(alphabetIndex < 0 || alphabetIndex > 25)
 				{
 					printf("Wrong file format in encrypted file.\n");
-					return 0;
+					return 5;
 				}
 				alphabet[alphabetIndex] ++;
 			}        
@@ -132,7 +131,6 @@ int getOffsetFromUser(int min, int max)
 		printf("Wrong input: ");
 	}
 	return input;
-	return 0;
 }
 
 // function to print a file with a offset.
@@ -147,8 +145,7 @@ int decryptWithOffset(int offset, char *encryptedFile)
    //check filepointer for validity
    if( filePointer == NULL )
    {
-      printf("Error while opening the file.\n");
-      return 0;
+      return 6;
    }
 
    printf("\n");
@@ -169,5 +166,5 @@ int decryptWithOffset(int offset, char *encryptedFile)
 void printErrorFaq()
 {
 	printf("Please refer to the documentation in the");
-	printf("comment section above the code.\n");
+	printf("comment section in the top of the code.\n");
 }
