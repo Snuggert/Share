@@ -8,8 +8,8 @@
  * 2 = Frequency file couldn't be opened.
  * 3 = Faulty frequency file.
  * 4 = Error opening file while trying offsets
- * 5 = Error in File (faulty file)
- * 6 = Error opening file while decrypting file with user offset.
+ * 5 = Error opening file while decrypting file with user offset.
+ * 6 = Memory allocation error.
  * Author: Abe Wiersma (Snuggert)
  * Date: 11-02-2013
  */
@@ -26,20 +26,36 @@ int main( int argc, char *argv[] )
    }
 
    // array to store the floats used for the frequency in which characters occur
-   float freqAlphabet[26];
    char *encryptedFile = argv[1];
    char *freqFile = argv[2];
-   // Make an array with a place to count a-z
+   float *freqAlphabet;
+   freqAlphabet = malloc(26*sizeof(float));
+   char *encryptedFileContent;
+   encryptedFileContent = malloc(256);
    int offset, result;
 
-   result = fillFreqArray(freqFile, freqAlphabet);
+   result = getFreq(freqFile, freqAlphabet);
    if(result != 0)
    {
       printf("ERROR: %d\n", result);
       printErrorFaq();
       return 0;
    }
-   result = tryOffsets(encryptedFile, freqAlphabet);
+
+   result = getEncrypted(encryptedFile, *encryptedFileContent);
+   if(result != 0)
+   {
+      printf("ERROR: %d\n", result);
+      printErrorFaq();
+      return 0;
+   }
+
+   for(int index = 0; index < 26; index++)
+   {
+      printf("%f\n", freqAlphabet[index]);
+   }
+
+   result = tryOffsets(encryptedFileContent, freqAlphabet);
    if(result != 0)
    {
       printf("ERROR: %d\n", result);

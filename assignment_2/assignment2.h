@@ -1,15 +1,17 @@
 #include "stdlib.h"
 #include "stdio.h"
+#include "limits.h"
 
+int getFreq(char *filename, float *freqArray);
+int getEncrypted(char *filename, char **contentArray);
+int tryOffsets(char *fileContent, float *freqAlphabet);
 int getOffsetFromUser(int min, int max);
 int decryptWithOffset(int offset, char *encryptedFile);
-int fillFreqArray(char *filename, float *freqArray);
-int tryOffsets(char *encryptedFile, float *freqAlphabet);
 void printErrorFaq();
 
 
 // Fill an alphabetic array with frequencies belonging to a language.
-int fillFreqArray(char *filename, float *freqArray)
+int getFreq(char *filename, float *freqArray)
 {
 	// Create filepointer to the language frequency file
 	FILE *filePointer = fopen(filename,"r");
@@ -51,65 +53,123 @@ int fillFreqArray(char *filename, float *freqArray)
 	return 0;
 }
 
-// function to try all offsets 0 to 25 on a file.
-// i chose to not put the contents of the file in an array to spare memory space
-// usage, even though for the small files we use now it takes some time more
-// for every loop.
-int tryOffsets(char *encryptedFile, float *freqAlphabet)
+// Fill an array with the contents of the encrypted file.
+int getEncrypted(char *filename, char **contentArray)
 {
 	char ch;
+	int index, currentArraySize;
+	index = 0;
+	currentArraySize = 256;
+	// Create filepointer to the filename.
+	FILE *filePointer = fopen(filename,"r");
+
+	if( filePointer == NULL )
+	{
+		return 4;
+	}
+
+	// while the end of the file is not reached put chars in array.
+	while(( ch = fgetc(filePointer) ) != EOF )
+	{
+ 		// ignore every none lowercase character.
+ 		if((ch - 'a' >= 0 && ch - 'a' < 26) || ch == ' ')
+ 		{
+ 			*contentArray[index]= ch;
+ 			index++;
+ 		}
+ 		// if the array size is reached arraysize is increased.
+ 		if(index == currentArraySize)
+ 		{
+ 			char *temp = realloc(contentArray, currentArraySize*2);
+ 			if ( temp != NULL ) //realloc was successful
+			{
+			   *contentArray = temp;
+			   free(temp);
+			}
+			else
+			{
+				return 6;
+			}
+ 			currentArraySize *= 2;
+ 		}
+	}
+	fclose(filePointer);
+
+	// fill the remainder of the array with empty chars.
+	while(index < currentArraySize)
+	{
+		contentArray[index] = 0;
+		index++;
+	}
+
+	return 0;
+}
+
+// function to try all offsets 0 to 25 on a file.
+int tryOffsets(char *fileContent, float *freqAlphabet)
+{
+	char ch;
+	// Make an array with a place to count charachters a-z
 	int alphabet[26], index, numberOfChars, alphabetIndex, offset;
 	double percentage, mindifference, difference;
-	FILE *filePointer;
 	mindifference = 999;
+	index = 0;
+	while(1)
+	{
+		ch = fileContent[index];
+		if(ch == 0 || index == 256)
+		{
+			break;
+		}
+		index++; 
+		printf("%c", ch); 
+	}
+
 	printf("\nTrying offsets:\n");
+
 	// try all the offsets 0 to 25
 	for(offset = 0; offset < 26; offset++)
 	{
 		printf(" %d", offset);
-		// Create filepointer to the encrypted file.
-		filePointer = fopen(encryptedFile,"r");
 
 		//reset values
-		numberOfChars = 0;
+		index = 0;
 		difference = 0;
+		numberOfChars = 0;
 		for(index = 0; index < 26; index++)
 		{
 			alphabet[index] = 0;
 		}
 
-		//check filepointer for validity
-		if( filePointer == NULL )
+		
+		// loop through charArray skipping spaces.		 
+		while(1)
 		{
-			return 4;
-		}
-
-		/*
-		* loop through file character by character every non space character 
-		* gets counted and the number of occurences of a character is kept.
-		*/
-		while( ( ch = fgetc(filePointer) ) != EOF )
-		{
+			ch = fileContent[index];
+			// break if NULL is found.
+			if(ch == 0)
+			{
+				break;
+			}
+			index++;
 			if(ch != ' ')
 			{
 				ch = (((ch -'a') + offset)%26) + 'a';
-				numberOfChars ++;
-				alphabetIndex = ch;
-				alphabetIndex -= 'a';
-				if(alphabetIndex < 0 || alphabetIndex > 25)
-				{
-					printf("Wrong file format in encrypted file.\n");
-					return 5;
-				}
+				alphabetIndex = ch - 'a';
 				alphabet[alphabetIndex] ++;
-			}        
+				numberOfChars ++;
+			}       
 		}
-		fclose(filePointer);
+
+		// for each letters check the difference in frequencies compared to the 
+		// frequencyfile
 		for(index = 0; index < 26; index++)
 		{
 			percentage = ((double)alphabet[index]/(double)numberOfChars)*100;
 			difference += fabs(percentage - freqAlphabet[index]);
+			// printf("%f\n", freqAlphabet[index]);
 		}
+		// if the difference is smaller let it know to the user.
 		if(difference < mindifference)
 		{
 			printf("*");
@@ -145,7 +205,7 @@ int decryptWithOffset(int offset, char *encryptedFile)
    //check filepointer for validity
    if( filePointer == NULL )
    {
-      return 6;
+      return 5;
    }
 
    printf("\n");

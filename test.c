@@ -15,6 +15,6 @@ long double getRandom();
 
 int main( int argc, char *argv[] )
 {
-	char a = 'a';
-	printf("%c\n", ((a-'a' + 2)%26) + 'a');
+	char *a[] = { "a", "b", "c" };
+	printf("%d\n", sizeof(a) / sizeof(a[0]));
 }
