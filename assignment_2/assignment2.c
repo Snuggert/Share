@@ -55,7 +55,7 @@ int main( int argc, char *argv[] )
       printf("%f\n", freqAlphabet[index]);
    }
 
-   result = tryOffsets(encryptedFileContent, freqAlphabet);
+   result = tryOffsets(freqAlphabet, encryptedFileContent);
    if(result != 0)
    {
       printf("ERROR: %d\n", result);
@@ -65,7 +65,7 @@ int main( int argc, char *argv[] )
 
    offset = getOffsetFromUser(0, 26);
 
-   result = decryptWithOffset(offset, encryptedFile);
+   result = decryptWithOffset(offset, encryptedFileContent);
    if(result != 0)
    {
       printf("ERROR: %d\n", result);

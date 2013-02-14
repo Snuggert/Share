@@ -106,7 +106,7 @@ int getEncrypted(char *filename, char **contentArray)
 }
 
 // function to try all offsets 0 to 25 on a file.
-int tryOffsets(char *fileContent, float *freqAlphabet)
+int tryOffsets(float *freqAlphabet, char *fileContent)
 {
 	char ch;
 	// Make an array with a place to count charachters a-z
@@ -194,31 +194,29 @@ int getOffsetFromUser(int min, int max)
 }
 
 // function to print a file with a offset.
-int decryptWithOffset(int offset, char *encryptedFile)
+int decryptWithOffset(int offset, char *fileContent)
 {
    char ch;
-   FILE *filePointer;
-
-   // Create filepointer to the encrypted file.
-   filePointer = fopen(encryptedFile,"r");
-
-   //check filepointer for validity
-   if( filePointer == NULL )
-   {
-      return 5;
-   }
+   int index;
+   index = 0;
 
    printf("\n");
    // loop through the file and print every char.
-   while( ( ch = fgetc(filePointer) ) != EOF )
+   while(1)
    {
-      // if a char is not a space it will be set off by the offset given.
-      if(ch != ' ')
-      {
-         ch = (((ch -'a') + offset)%26) + 'a';
-      }
-      printf("%c", ch);
-   }
+		ch = fileContent[index];
+		if(ch == 0)
+		{
+			break;
+		}
+		index++;
+		// if charachter is not a space shift it with offset.
+		if(ch != ' ')
+		{
+			ch = (((ch -'a') + offset)%26) + 'a';
+		} 
+		printf("%c", ch); 
+	}
    fclose(filePointer);
    return 0;
 }
