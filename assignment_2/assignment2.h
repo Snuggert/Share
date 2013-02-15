@@ -4,7 +4,7 @@
 
 int getFreq(char *filename, float *freqArray);
 int getEncrypted(char *filename, char **contentArray);
-int tryOffsets(char *fileContent, float *freqAlphabet);
+int tryOffsets(float *freqAlphabet, char *fileContent);
 int getOffsetFromUser(int min, int max);
 int decryptWithOffset(int offset, char *encryptedFile);
 void printErrorFaq();
@@ -56,7 +56,7 @@ int getFreq(char *filename, float *freqArray)
 // Fill an array with the contents of the encrypted file.
 int getEncrypted(char *filename, char **contentArray)
 {
-	char ch;
+	char ch, *temp;
 	int index, currentArraySize;
 	index = 0;
 	currentArraySize = 256;
@@ -80,7 +80,7 @@ int getEncrypted(char *filename, char **contentArray)
  		// if the array size is reached arraysize is increased.
  		if(index == currentArraySize)
  		{
- 			char *temp = realloc(contentArray, currentArraySize*2);
+ 			temp = realloc(*contentArray, currentArraySize*2);
  			if ( temp != NULL ) //realloc was successful
 			{
 			   *contentArray = temp;
@@ -217,7 +217,6 @@ int decryptWithOffset(int offset, char *fileContent)
 		} 
 		printf("%c", ch); 
 	}
-   fclose(filePointer);
    return 0;
 }
 // function to print ref to where the actual meaning of error messages is located.

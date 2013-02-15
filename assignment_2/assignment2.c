@@ -42,7 +42,7 @@ int main( int argc, char *argv[] )
       return 0;
    }
 
-   result = getEncrypted(encryptedFile, *encryptedFileContent);
+   result = getEncrypted(encryptedFile, encryptedFileContent);
    if(result != 0)
    {
       printf("ERROR: %d\n", result);
