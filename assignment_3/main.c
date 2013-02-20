@@ -1,6 +1,7 @@
-#include "maze.h"
-#include "walker.h"
-#include "solvers.h"
+#include "main.h"
+#include "maze.c"
+#include "walker.c"
+#include "solvers.c"
 
 #define MAX_STEPS 10000
 
@@ -24,9 +25,10 @@ int main (int argc, char **argv) {
     }
 
     if (count < MAX_STEPS)
+    {
         printf("Found exit after %d steps\n", count);
+    }
 
 
     return 0;
-
 }

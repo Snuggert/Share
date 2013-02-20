@@ -1,5 +1,5 @@
 /*
- * File: assignment1.c
+ * File: assignment2.c
  * 
  * This file contains a program in c to break the caesar style encryption.
  *
