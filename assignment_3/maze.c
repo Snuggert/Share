@@ -4,10 +4,10 @@
 #include "string.h"
 
 /* Incomplete definitions of the maze support function . */
-maze_t *initMaze(int width, int height)
+struct maze_t *initMaze(int width, int height)
 {
-	maze_t *maze;
-	maze = malloc( sizeof(maze_t) );
+	struct maze_t *maze;
+	maze = malloc( sizeof(struct maze_t) );
 	maze->width = width;
 	maze->height = height;
 	maze->map = malloc( (width * height + 1) * sizeof(char) );
@@ -20,13 +20,13 @@ maze_t *initMaze(int width, int height)
 	return maze;
 }
 
-maze_t *readMaze(char* fileName)
+struct maze_t *readMaze(char* fileName)
 {
 	int width, height;
 	long size;
 	char *tempMaze, *token;
 	char *search;
-	maze_t *maze;
+	struct maze_t *maze;
 	FILE *filePointer = fopen(fileName,"r");
 
 	if (filePointer == NULL)
@@ -103,7 +103,7 @@ maze_t *readMaze(char* fileName)
 	return maze;
 }
 
-void printMaze(maze_t* maze)
+void printMaze(struct maze_t* maze)
 {
 	char *mapArray = maze->map;
 	long numberOfChars = maze->height * maze->width;

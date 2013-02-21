@@ -1,4 +1,3 @@
-#include "maze.h"
 #include "walker.h"
 
 /* Incomplete definitions of the walker support function . */
@@ -7,7 +6,7 @@ int check_move()
     return 0;
 }
 
-int at_exit(maze_t* maze, walker_t* walker)
+int at_exit(struct maze_t* maze, struct walker_t* walker)
 {
 	if(walker->xPos == maze->endX && walker->yPos == maze->endY)
 	{
@@ -19,10 +18,10 @@ int at_exit(maze_t* maze, walker_t* walker)
 	}    
 }
 
-walker_t* init_walker(maze_t* maze)
+struct walker_t* init_walker(struct maze_t* maze)
 {
-	walker_t *walker;
-	walker = malloc( sizeof(walker_t) );
+	struct walker_t *walker;
+	walker = malloc( sizeof(struct walker_t) );
 	walker->xPos = maze->startX;
 	walker->yPos = maze->startY;
 	return walker;

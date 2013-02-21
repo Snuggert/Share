@@ -13,19 +13,21 @@
 #define EXIT    'E'
 
 /* Incomplete type declaration. */
-typedef struct 
+struct maze_t
 {
 	int width, height;
 	int startX, startY;
 	int endX, endY;
 	char *map;
-} maze_t;
+};
+
+struct walker_t;
 
 
 /* Incomplete declarations of the support functions. */
-maze_t *initMaze(int width, int height);
-maze_t *readMaze(char* fileName);
-void printMaze(maze_t* maze);
+struct maze_t *initMaze(int width, int height);
+struct maze_t *readMaze(char* fileName);
+void printMaze(struct maze_t* maze);
 void cleanupMaze ();
 
 #endif

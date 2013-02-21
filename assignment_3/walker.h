@@ -2,15 +2,17 @@
 #define WALKER_H
 
 /* Incomplete type declaration. */
-typedef struct {
+struct walker_t
+{
     int xPos, yPos;
-} walker_t;
+};
 
+struct maze_t;
 
 /* Incomplete declarations of the support functions. */
-walker_t* init_walker(maze_t* maze);
+struct walker_t* init_walker(struct maze_t* maze);
 int move_walker();
-int at_exit(maze_t* maze, walker_t* walker);
+int at_exit(struct maze_t* maze, struct walker_t* walker);
 int check_move();
 void cleanup_walker();
 

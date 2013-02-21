@@ -1,6 +1,7 @@
 #include "maze.c"
 #include "walker.c"
 #include "solvers.c"
+#include "main.h"
 
 int main (int argc, char **argv) {
     // check if argument is given.
@@ -9,8 +10,8 @@ int main (int argc, char **argv) {
         perror("No mazefile given to program.");
         exit(EXIT_FAILURE);
     }
-    maze_t* maze;
-    walker_t* walker;
+    struct maze_t* maze;
+    struct walker_t* walker;
     int count, dir;
     char *fileName;
 
