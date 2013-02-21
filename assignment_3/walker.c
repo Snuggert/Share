@@ -7,15 +7,25 @@ int check_move()
     return 0;
 }
 
-int at_exit()
+int at_exit(maze_t* maze, walker_t* walker)
 {
-    return 0;
+	if(walker->xPos == maze->endX && walker->yPos == maze->endY)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}    
 }
 
-walker_t* init_walker()
+walker_t* init_walker(maze_t* maze)
 {
-	walker_t walker = {0, 0};
-	return walker_t 
+	walker_t *walker;
+	walker = malloc( sizeof(walker_t) );
+	walker->xPos = maze->startX;
+	walker->yPos = maze->startY;
+	return walker;
 }
 
 int move_walker()
@@ -25,5 +35,4 @@ int move_walker()
 
 void cleanup_walker()
 {
-    return 0;
 }

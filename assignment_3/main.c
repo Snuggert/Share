@@ -1,17 +1,23 @@
-#include "main.h"
 #include "maze.c"
 #include "walker.c"
 #include "solvers.c"
 
-#define MAX_STEPS 10000
-
 int main (int argc, char **argv) {
+    // check if argument is given.
+    if(argc != 2)
+    {
+        perror("No mazefile given to program.");
+        exit(EXIT_FAILURE);
+    }
     maze_t* maze;
     walker_t* walker;
     int count, dir;
+    char *fileName;
 
-    /* check your args, read maze here, init walker.. */
-    /* ... */
+    fileName = argv[1];
+
+    maze = readMaze(fileName);
+    printMaze(maze);
 
     // count = 0;
     // while (count < MAX_STEPS) {

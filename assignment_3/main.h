@@ -1,4 +1,1 @@
-#include "stdlib.h"
-#include "stdio.h"
-#include "math.h"
-#include "string.h"
+#define MAX_STEPS 10000

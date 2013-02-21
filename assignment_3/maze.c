@@ -1,20 +1,30 @@
 #include "maze.h"
+#include "stdlib.h"
+#include "stdio.h"
+#include "string.h"
 
 /* Incomplete definitions of the maze support function . */
-maze_t *init_maze(int width, int height)
+maze_t *initMaze(int width, int height)
 {
 	maze_t *maze;
+	maze = malloc( sizeof(maze_t) );
 	maze->width = width;
 	maze->height = height;
-	maze->map = malloc((width * height + 1) * sizeof(char))
+	maze->map = malloc( (width * height + 1) * sizeof(char) );
+
+	// set all positions to zero.
+	maze->startX = 0;
+	maze->startY = 0;
+	maze->endX = 0;
+	maze->endY = 0;
 	return maze;
 }
 
-maze_t *read_maze(char *fileName)
+maze_t *readMaze(char* fileName)
 {
 	int width, height;
 	long size;
-	char ch, *tempMaze, *token;
+	char *tempMaze, *token;
 	char *search;
 	maze_t *maze;
 	FILE *filePointer = fopen(fileName,"r");
@@ -26,7 +36,7 @@ maze_t *read_maze(char *fileName)
 	}
 
 	fseek(filePointer, 0, SEEK_END);
-	size = sizeof(char) * ftell(*filePointer);
+	size = sizeof(char) * ftell(filePointer);
 	rewind(filePointer);
 	tempMaze = malloc(size);
 
@@ -46,43 +56,68 @@ maze_t *read_maze(char *fileName)
 		width = strtol(token, NULL, 10);
 	}
 
-	for(int heightIndex = 0; heightIndex < height; height++)
+	maze = initMaze(width, height);
+
+	for(int heightIndex = 0; heightIndex < height; heightIndex++)
 	{
 		token = strtok(NULL, search);
 		if(token == NULL)
 		{
-			printf("Error in textfile.\n");
+			perror("Error in textfile.");
 			exit(EXIT_FAILURE);
 		}
 
-		for(int widthIndex = 0; widthIndex < width; width++)
+		for(int widthIndex = 0; widthIndex < width; widthIndex++)
 		{
 			maze->map[width * heightIndex + widthIndex] = token[widthIndex];
 			if(token[widthIndex] == 'S')
 			{
-
 				maze->startX = widthIndex;
 				maze->startY = heightIndex;
+			}
+			if(token[widthIndex] == 'E')
+			{
+				maze->endX = widthIndex;
+				maze->endY = heightIndex;
+			}
+			if((widthIndex == 0 || widthIndex == width -1) && token[widthIndex] != '#')
+			{
+				perror("Holes in maze walls.");
+				exit(EXIT_FAILURE);
 			}
 		}
 	}
 
-
-    maze = init_maze(width, height);
-	if()
+	if(maze->endX == 0 || maze->endY == 0)
 	{
-
+		perror("No exit found in file.");
+		exit(EXIT_FAILURE);
 	}
-    maze.map = malloc(10*10);
+	if(maze->endX == 0 || maze->endY == 0)
+	{
+		perror("No start found in file.");
+		exit(EXIT_FAILURE);
+	}
+
+	free(tempMaze);
 	return maze;
 }
 
-void print_maze(maze_t maze)
+void printMaze(maze_t* maze)
 {
-
+	char *mapArray = maze->map;
+	long numberOfChars = maze->height * maze->width;
+	for(int index = 0; index < numberOfChars; index++)
+	{
+		printf("%c", mapArray[index]);
+		if(index % maze->width == maze->width - 1)
+		{
+			printf("\n");
+		}
+	}
 }
 
-void cleanup_maze ()
+void cleanupMaze()
 {
 
 }

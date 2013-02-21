@@ -17,14 +17,15 @@ typedef struct
 {
 	int width, height;
 	int startX, startY;
+	int endX, endY;
 	char *map;
 } maze_t;
 
 
 /* Incomplete declarations of the support functions. */
-maze_t *init_maze(int width, int height);
-maze_t *read_maze(char * fileName);
-void print_maze(char *mapArray);
-void cleanup_maze ();
+maze_t *initMaze(int width, int height);
+maze_t *readMaze(char* fileName);
+void printMaze(maze_t* maze);
+void cleanupMaze ();
 
 #endif
