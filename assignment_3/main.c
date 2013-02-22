@@ -12,16 +12,22 @@ int main (int argc, char **argv) {
     }
     struct maze_t* maze;
     struct walker_t* walker;
-    int count, dir, *route;
+    int count, dir, *route, routelength;
     char *fileName;
 
     fileName = argv[1];
 
     maze = readMaze(fileName);
-    mySuperMazeSolverFunction(maze, &route);
+    routelength = mySuperMazeSolverFunction(maze, &route);
     walker = initWalker(maze);
-    printMaze(maze, walker);
 
+    for(int index = 0; index < routelength; index++ )
+    {
+        walker = move_walker(route[index], walker, maze);
+        // printMaze(maze, walker);
+    }
+
+    printf("Exit found in %d steps\n", routelength);
     // count = 0;
     // while (count < MAX_STEPS) {
     //     count++;
