@@ -10,7 +10,7 @@ struct walker_t
 struct maze_t;
 
 /* Incomplete declarations of the support functions. */
-struct walker_t* init_walker(struct maze_t* maze);
+struct walker_t* initWalker(struct maze_t* maze);
 int move_walker();
 int at_exit(struct maze_t* maze, struct walker_t* walker);
 int check_move();

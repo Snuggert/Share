@@ -1,7 +1,9 @@
-#include "maze.h"
 #include "stdlib.h"
 #include "stdio.h"
 #include "string.h"
+
+#include "maze.h"
+#include "walker.h"
 
 /* Incomplete definitions of the maze support function . */
 struct maze_t *initMaze(int width, int height)
@@ -103,9 +105,11 @@ struct maze_t *readMaze(char* fileName)
 	return maze;
 }
 
-void printMaze(struct maze_t* maze)
+void printMaze(struct maze_t* maze, struct walker_t* walker)
 {
 	char *mapArray = maze->map;
+	int posInArray = walker->yPos * maze->width + walker->xPos;
+	mapArray[posInArray] = 'X';
 	long numberOfChars = maze->height * maze->width;
 	for(int index = 0; index < numberOfChars; index++)
 	{

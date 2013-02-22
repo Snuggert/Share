@@ -1,4 +1,5 @@
 #include "walker.h"
+#include "maze.h"
 
 /* Incomplete definitions of the walker support function . */
 int check_move()
@@ -18,7 +19,7 @@ int at_exit(struct maze_t* maze, struct walker_t* walker)
 	}    
 }
 
-struct walker_t* init_walker(struct maze_t* maze)
+struct walker_t* initWalker(struct maze_t* maze)
 {
 	struct walker_t *walker;
 	walker = malloc( sizeof(struct walker_t) );

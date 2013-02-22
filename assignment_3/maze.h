@@ -12,7 +12,6 @@
 #define START   'S'
 #define EXIT    'E'
 
-/* Incomplete type declaration. */
 struct maze_t
 {
 	int width, height;
@@ -27,7 +26,7 @@ struct walker_t;
 /* Incomplete declarations of the support functions. */
 struct maze_t *initMaze(int width, int height);
 struct maze_t *readMaze(char* fileName);
-void printMaze(struct maze_t* maze);
+void printMaze(struct maze_t* maze, struct walker_t* walker);
 void cleanupMaze ();
 
 #endif

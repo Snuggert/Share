@@ -12,13 +12,15 @@ int main (int argc, char **argv) {
     }
     struct maze_t* maze;
     struct walker_t* walker;
-    int count, dir;
+    int count, dir, *route;
     char *fileName;
 
     fileName = argv[1];
 
     maze = readMaze(fileName);
-    printMaze(maze);
+    mySuperMazeSolverFunction(maze, &route);
+    walker = initWalker(maze);
+    printMaze(maze, walker);
 
     // count = 0;
     // while (count < MAX_STEPS) {
