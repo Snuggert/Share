@@ -135,6 +135,7 @@ struct maze_t *readMaze(char* fileName)
 	free(tempMaze);
 	return maze;
 }
+
 // print the maze with the walker position marked by an X.
 void printMaze(struct maze_t* maze, struct walker_t* walker, int count)
 {
@@ -153,21 +154,19 @@ void printMaze(struct maze_t* maze, struct walker_t* walker, int count)
 	mapArray[posInArray] = 'X';
 	long numberOfChars = maze->height * maze->width;
 
-	FILE *filePointer;
-    filePointer=fopen("result.txt", "a");
-    fprintf(filePointer, "step: %d\n", count);
+    printf("step: %d\n", count);
 	for(index = 0; index < numberOfChars; index++)
 	{
-		fprintf(filePointer, "%c", mapArray[index]);
+		printf("%c", mapArray[index]);
 		if(index % maze->width == maze->width - 1)
 		{
-			fprintf(filePointer, "\n");
+			printf("\n");
 		}
 	}
 
-	fclose(filePointer);
 	free(mapArray);
 }
+
 // free up memory.
 void cleanupMaze(struct maze_t* maze)
 {

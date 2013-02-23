@@ -40,13 +40,6 @@ int main (int argc, char **argv) {
     // start the clock for the algorithm
     timespent=clock();
 
-    // all results are put into the result.txt file
-    FILE *filePointer;
-    filePointer=fopen("result.txt", "w");
-    fprintf(filePointer, "This file contains the results with");
-    fprintf(filePointer, " decryption method: %d\n", choice);
-    fclose(filePointer);
-
     // random method
     if(choice == 1)
     {
@@ -127,8 +120,6 @@ int main (int argc, char **argv) {
     timespent = clock() - timespent;
     // return time spent to user.
     printf("Time spent is: %f seconds \n", ((float)timespent)/CLOCKS_PER_SEC);
-    // return to user where results can be found after completion algorithm.
-    printf("Results can be found in result.txt");
     cleanupMaze(maze);
     cleanupWalker(walker);
     return 0;
