@@ -25,4 +25,4 @@ $(PROGNAME): $(PROGNAME).o
 	$(CC) $(CFLAGS) $(OUTPUT) $< -lm
 
 run: all
-	./$(PROGNAME)
+	./$(PROGNAME) map3.txt
