@@ -1,3 +1,14 @@
+/*
+ * File: solvers.c
+ * 
+ * This file contains different kinds of algorithms to solve a maze.
+ *
+ * Author: Abe Wiersma (Snuggert)
+ * Date: 23-02-2013
+ */
+
+#include "stdlib.h"
+
 #include "maze.h"
 #include "walker.h"
 #include "solvers.h"
@@ -64,27 +75,36 @@ int mySuperMazeSolverFunction(struct maze_t *maze, int **route)
 	}
 	currentPosition = maze->endY * width + maze->endX;
 	*route = malloc((currentNumber) * sizeof(int));
-	
+
+	// fill the route from back to front with directions.
 	for(int routeIndex = currentNumber - 1; routeIndex >= 0; routeIndex--)
 	{
+		// if the position NORTH of the current position is the number
+		// currentPosition - 1 the move of routeIndex = SOUTH
 		if(intMaze[currentPosition - width] == routeIndex)
 		{
 			(*route)[routeIndex] = SOUTH;
 			currentPosition -= width;
 		}
 
+		// if the position EAST of the current position is the number
+		// currentPosition - 1 the move of routeIndex = WEST
 		else if(intMaze[currentPosition + 1] == routeIndex)
 		{
 			(*route)[routeIndex] = WEST;
 			currentPosition += 1;
 		}
 
+		// if the position SOUTH of the current position is the number
+		// currentPosition - 1 the move of routeIndex = NORTH
 		else if(intMaze[currentPosition + width] == routeIndex)
 		{
 			(*route)[routeIndex] = NORTH;
 			currentPosition += width;
 		}
 
+		// if the position WEST of the current position is the number
+		// currentPosition - 1 the move of routeIndex = EAST
 		else if(intMaze[currentPosition - 1] == routeIndex)
 		{
 			(*route)[routeIndex] = EAST;
@@ -95,3 +115,27 @@ int mySuperMazeSolverFunction(struct maze_t *maze, int **route)
 	return currentNumber;
 }
 
+// generate a random direction based on time.
+void randomDirection(struct maze_t* maze, struct walker_t* walker)
+{
+	// possible directions are null to three.
+	while(!moveWalker(rand() % 4, walker, maze));
+}
+
+// Follow the left wall.
+int followWall(struct maze_t* maze, struct walker_t* walker, int direction)
+{
+		// Rotate direction to the right.
+		direction--;
+		if(direction < 0)
+		{
+			direction += 4;
+		}
+		// While there is a wall turn to the right.
+		while (!moveWalker(direction, walker, maze)) 
+		{
+			direction = (direction + 1) % 4;
+		}
+
+		return direction;
+}

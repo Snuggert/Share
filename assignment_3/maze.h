@@ -1,5 +1,3 @@
-/* Contains function related to the maze map of the game. */
-
 #ifndef MAZE_H
 #define MAZE_H
 
@@ -12,6 +10,7 @@
 #define START   'S'
 #define EXIT    'E'
 
+// Complete type declarations. 
 struct maze_t
 {
 	int width, height;
@@ -23,10 +22,10 @@ struct maze_t
 struct walker_t;
 
 
-/* Incomplete declarations of the support functions. */
+// Complete declarations of the support functions.
 struct maze_t *initMaze(int width, int height);
 struct maze_t *readMaze(char* fileName);
-void printMaze(struct maze_t* maze, struct walker_t* walker);
-void cleanupMaze ();
+void printMaze(struct maze_t* maze, struct walker_t* walker, int count);
+void cleanupMaze(struct maze_t* maze);
 
 #endif
