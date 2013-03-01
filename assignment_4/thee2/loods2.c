@@ -77,7 +77,7 @@ char* leveren(struct loods2 *storage)
 
 void sloopLoods(struct loods2 *storage)
 {
-	while(leveren(storage) != NULL)
+	while(leveren(storage) != NULL);
 
 	free(storage->stack);
 	storage->stack = NULL;

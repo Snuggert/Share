@@ -1,2 +1,2 @@
-void getOperation(char *line);
+char* getOperation(char *line);
 void printCommands();

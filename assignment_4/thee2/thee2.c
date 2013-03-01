@@ -18,14 +18,13 @@ int main (int argc, char **argv)
 {
 	struct loods2 *storage1, *storage2;
 	char *line, *token, *search, *leverenResult;
-	line = malloc( 50 * sizeof(char) );
 
 	storage1 = maakLoods();
 	storage2 = maakLoods();
 	printf("\nWelkom bij ons theebedrijf. Geef opdrachten:\n\n");
 	while(1)
 	{
-		getOperation(line);
+		line = getOperation(line);
 		search = " ";
 		token = strtok(line, search);
 		if(token == NULL)
@@ -52,6 +51,7 @@ int main (int argc, char **argv)
 				{
 					printf("Er is geen thee meer in voorraad.\n");
 				}
+				free(leverenResult);
 			}
 			else if(token[7] == '2')
 			{
@@ -63,7 +63,8 @@ int main (int argc, char **argv)
 				else
 				{
 					printf("Er is geen thee meer in voorraad.\n");
-				}	
+				}
+				free(leverenResult);
 			}
 			else
 			{
@@ -140,11 +141,10 @@ int main (int argc, char **argv)
 			{
 				printf("Loods bestaat niet\n");
 			}
+			free(token);
 		}
 		else if(!strcmp(token, "exit"))
 		{
-			sloopLoods(storage1);
-			sloopLoods(storage2);
 			break;
 		}
 		else
@@ -152,13 +152,18 @@ int main (int argc, char **argv)
 			printf("Commando niet herkent...\n");
 			printf("Voor lijst met commando's typ help.\n");
 		}
+		free(line);
 	}
+	free(line);
+	sloopLoods(storage1);
+	sloopLoods(storage2);
 	return 0;
 }
 
-void getOperation(char *line)
+char* getOperation(char *line)
 {
 	char *p;
+	line = malloc(50 * sizeof(char));
 	printf("> ");
 	if (fgets(line, 50, stdin) != NULL)
 	{
@@ -168,6 +173,7 @@ void getOperation(char *line)
 			*p = '\0';
 		}
 	}
+	return line;
 }
 
 void printCommands()
