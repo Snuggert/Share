@@ -1,5 +1,5 @@
 /*
- * File: thee1.c
+ * File: thee3.c
  * 
  * This program is a managing program for a tea company.
  *
@@ -10,44 +10,64 @@
 #include "stdio.h" 
 #include "string.h"
 
-#include "loods1.h"
-#include "loods1.c"
-#include "thee1.h"
+#include "loods3.h"
+#include "loods3.c"
+#include "thee3.h"
 
 int main (int argc, char **argv)
 {
-	struct loods1 *storage;
+	struct loods3 *storage1, *storage2;
 	char *line, *token, *search, *leverenResult;
-	line = malloc( 50 * sizeof(char) );
 
-	storage = maakLoods();
+	storage1 = maakLoods();
+	storage2 = maakLoods();
 	printf("\nWelkom bij ons theebedrijf. Geef opdrachten:\n\n");
 	while(1)
 	{
-		getOperation(line);
+		line = getOperation(line);
 		search = " ";
 		token = strtok(line, search);
+
 		if(token == NULL)
 		{
 			printf("Commando niet herkent...\n");
 			printf("Voor lijst met commando's typ help.\n");
 		}
+
 		else if(!strcmp(token, "help"))
 		{
 			printCommands();
 		}
+
 		else if(!strcmp(token, "leveren"))
 		{
-			leverenResult = leveren(storage);
+			if(leeg(storage2) && !leeg(storage1))
+			{
+				while(1)
+				{
+					leverenResult = leveren(storage1);
+					if(leverenResult != NULL)
+					{
+						printf("%s wordt verplaatst van loods 1 naar loods 2.\n", leverenResult);
+						opslaan(storage2, leverenResult);
+					}
+					else
+					{
+						break;
+					}
+				}	
+			}
+			leverenResult = leveren(storage2);
 			if(leverenResult != NULL)
 			{
-				printf("%s wordt geleverd.\n", leverenResult);
+				printf("%s wordt geleverd uit loods 2.\n", leverenResult);
 			}
 			else
 			{
 				printf("Er is geen thee meer in voorraad.\n");
-			}	
+			}		
 		}
+
 		else if(!strcmp(token, "opslaan"))
 		{
 			search = "\n";
@@ -58,27 +78,33 @@ int main (int argc, char **argv)
 			}
 			else
 			{
-				opslaan(storage, token);
-				printf("%s wordt opgeslagen.\n", token);
-			}	
+				opslaan(storage1, token);
+				printf("%s wordt opgeslagen in loods 1.\n", token);
+			}
 		}
+
 		else if(!strcmp(token, "stop"))
 		{
-			sloopLoods(storage);
 			break;
 		}
+
 		else
 		{
 			printf("Commando niet herkent...\n");
 			printf("Voor lijst met commando's typ help.\n");
 		}
+		free(line);
 	}
+	free(line);
+	sloopLoods(storage1);
+	sloopLoods(storage2);
 	return 0;
 }
 
-void getOperation(char *line)
+char* getOperation(char *line)
 {
 	char *p;
+	line = malloc(50 * sizeof(char));
 	printf("> ");
 	if (fgets(line, 50, stdin) != NULL)
 	{
@@ -88,12 +114,14 @@ void getOperation(char *line)
 			*p = '\0';
 		}
 	}
+	return line;
 }
 
 void printCommands()
 {
 	printf("Commands:\n");
-	printf("opslaan 'wat er opgeslagen moet worden.'\n");
+	printf("opslaan @");
+	printf("(@ is wat er opgeslagen moet worden.)'\n");
 	printf("leveren\n");
 	printf("stop\n");
 }

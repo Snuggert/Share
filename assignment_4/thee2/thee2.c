@@ -143,7 +143,7 @@ int main (int argc, char **argv)
 			}
 			free(token);
 		}
-		else if(!strcmp(token, "exit"))
+		else if(!strcmp(token, "stop"))
 		{
 			break;
 		}
@@ -184,5 +184,5 @@ void printCommands()
 	printf("leveren$ ($ is het container getal.)\n");
 	printf("verplaatsen$@ ($ is de oorsprongs container) ");
 	printf("(@ is de bestemmings container");
-	printf("exit\n");
+	printf("stop\n");
 }
