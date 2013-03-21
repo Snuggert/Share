@@ -101,7 +101,7 @@ void set_exit_start_pos(maze_t* maze){
                 maze->start_col = col;
                 startset += 1;
             }
-            else if(maze->map[row][col] == START)
+            else if(maze->map[row][col] == EXIT)
             {
                 maze->exit_row = row;
                 maze->exit_col = col;
