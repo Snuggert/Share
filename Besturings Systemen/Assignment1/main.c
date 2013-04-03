@@ -6,44 +6,61 @@
 #define MAX_ARGS        (1024)
 #define MAX_LINE        (2 * MAX_ARGS)
 
-void scanline();
+void scan_line();
 void do_exit ();
 void do_cd(char* dir);
 
 int main( int argc, char *argv[] )
 {
-	scanline();
+	while(1)
+	{
+		scanline();
+	}
 }
 
-void scanline()
+void scan_line()
 {
-	char *text, *delim;
-	text = malloc(sizeof(char)*MAX_LINE);
+	char *cmd, *delims, *token, *cwd;
 
-	printf(">");
-	if ( fgets(text, MAX_LINE, stdin) != NULL )
+	cmd = malloc(sizeof(char)*MAX_LINE);
+	cwd = malloc(sizeof(char)*1024);
+
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
-		char *newline = strchr(text, '\n'); /* search for newline character */
+  		fprintf(stdout, "%s>", cwd);
+	}
+  	else
+  	{
+		perror("getcwd() error");
+  	}
+
+	if ( fgets(cmd, MAX_LINE, stdin) != NULL )
+	{
+		char *newline = strchr(cmd, '\n'); /* search for newline character */
 		if ( newline != NULL )
 		{
 			*newline = '\0'; /* overwrite trailing newline */
 		}
 	}
-
+	delims = " ";
 	// Compare first part of read string, with the string cd, 
 	// if it matches send rest of string to do_cd
-	delim = ' ';
-	if(strcmp(strtok(text,delim),'cd'))
+	token = strtok(cmd,delims);
+	if(strcmp(token, "cd") == 0)
 	{
-		delim = '\0';
-		do_cd(strtok(NULL,'\0'));
+		delims = "";
+		do_cd(strtok(NULL, delims));
 	}
 
-	else if(strcmp(text,'exit') == 0)
+	else if(strcmp(text, "exit") == 0)
 	{
 		do_exit();
 	}
 
+	else
+	{
+		parse_command(cmd);
+	}
 }
 
 void do_exit()
@@ -53,5 +70,8 @@ void do_exit()
 
 void do_cd(char* dir)
 {
-	printf("%s\n", dir);
+	if(chdir(dir) != 0)
+	{
+		printf("%s :No such file or directory.\n", dir);
+	}
 }
