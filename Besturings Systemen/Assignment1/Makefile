@@ -1,5 +1,5 @@
 #Set program name.
-PROGNAME = scanner
+PROGNAME = main
 
 #Set the C compiler.
 CC = gcc
