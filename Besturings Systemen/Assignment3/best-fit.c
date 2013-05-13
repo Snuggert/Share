@@ -1,3 +1,11 @@
+/*
+ * File: next-fit.c
+ * 
+ * This file contains a memory management application implementing the best-fit algorithm.
+ *
+ * Author: Abe Wiersma (Snuggert)
+ * Date: 28-04-2013
+ */
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

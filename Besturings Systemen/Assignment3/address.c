@@ -1,8 +1,17 @@
+/*
+ * File: address.c
+ * 
+ * This file contains functions to work with adresses and the memory.
+ *
+ * Author: Abe Wiersma (Snuggert)
+ * Date: 28-04-2013
+ */
 #include <stdio.h>
 #include <math.h>
 
 #include "address.h"
 
+/* function to check if a block is used.*/
 int block_is_used(long address)
 {
 	/* Turn off all irrelevant bits. */
@@ -13,6 +22,7 @@ int block_is_used(long address)
 	return (int)address;
 }
 
+/* function to get the index without the used bit.*/
 long get_index(long last_index)
 {
 	long index, mask;
@@ -23,6 +33,7 @@ long get_index(long last_index)
 	return index;
 }
 
+/* function to return a address to new_index, with or without a mask of used. */
 long set_address(long new_index, int used)
 {
 	long used_mask, address;
